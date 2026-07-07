@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Md. Hosna Mobarok — Network Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0E17;
+    --panel: #121A28;
+    --panel-2: #16202F;
+    --line: #26374A;
+    --text: #EFF3F8;
+    --muted: #8A9BB3;
+    --signal: #00E5A0;
+    --signal-dim: #00E5A033;
+    --amber: #FFB454;
+    --amber-dim: #FFB45433;
+    --cyan: #3FC9F2;
+    --cyan-dim: #3FC9F233;
+    --purple: #B98CF0;
+    --purple-dim: #B98CF033;
+    --coral: #FF7A85;
+    --coral-dim: #FF7A8533;
+    --gold: #FFD166;
+    --gold-dim: #FFD16633;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--signal-dim); color:var(--signal);}
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  /* background grid */
+  .grid-bg{
+    position:fixed; inset:0; z-index:-1;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity:0.35;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black 20%, transparent 80%);
+  }
+  .glow-blob{position:fixed; z-index:-1; border-radius:50%; filter:blur(90px); opacity:0.28; pointer-events:none;}
+  .glow-1{width:520px; height:520px; top:-120px; left:-100px; background:var(--signal);}
+  .glow-2{width:480px; height:480px; top:100px; right:-140px; background:var(--purple);}
+  .glow-3{width:420px; height:420px; bottom:-160px; left:30%; background:var(--cyan); opacity:0.18;}
+
+  /* NAV */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 6vw;
+    background:rgba(10,14,20,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-id{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--signal); display:flex; align-items:center; gap:8px;}
+  .pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--signal); box-shadow:0 0 8px var(--signal); animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  .nav-links{display:flex; gap:28px; font-size:13px;}
+  .nav-links a{color:var(--muted); text-decoration:none; letter-spacing:0.03em; transition:color .2s;}
+  .nav-links a:hover{color:var(--text);}
+  @media(max-width:720px){.nav-links{display:none;}}
+
+  section{padding:120px 6vw 80px; max-width:1180px; margin:0 auto; position:relative;}
+
+  /* HERO */
+  .hero{padding-top:150px; display:grid; grid-template-columns:1.1fr 1fr; gap:40px; align-items:center; min-height:88vh;}
+  @media(max-width:900px){.hero{grid-template-columns:1fr; min-height:auto;}}
+  .eyebrow{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--amber); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:18px; display:flex; align-items:center; gap:10px;}
+  .eyebrow::before{content:''; width:24px; height:1px; background:var(--amber);}
+  h1{
+    font-family:'Inter',sans-serif; font-weight:800;
+    font-size:clamp(36px,5.2vw,64px); line-height:1.05; letter-spacing:-0.02em;
+    margin-bottom:20px;
+  }
+  h1 span{background:linear-gradient(100deg, var(--signal), var(--cyan) 60%, var(--purple)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .hero-desc{color:var(--muted); font-size:16px; max-width:520px; margin-bottom:34px;}
+  .hero-stats{display:flex; gap:0; border:1px solid var(--line); border-radius:10px; overflow:hidden; width:fit-content;}
+  .stat{padding:14px 24px; border-right:1px solid var(--line);}
+  .stat:last-child{border-right:none;}
+  .stat-num{font-family:'JetBrains Mono',monospace; font-size:22px; font-weight:700; color:var(--signal);}
+  .stat:nth-child(2) .stat-num{color:var(--cyan);}
+  .stat:nth-child(3) .stat-num{color:var(--purple);}
+  .stat-label{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-top:2px;}
+  .cta-row{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;}
+  .btn{font-family:'JetBrains Mono',monospace; font-size:13px; padding:12px 22px; border-radius:8px; text-decoration:none; letter-spacing:0.02em; transition:transform .15s, box-shadow .15s;}
+  .btn-primary{background:linear-gradient(100deg, var(--signal), var(--cyan)); color:#04140F; font-weight:600;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 8px 28px var(--signal-dim);}
+  .btn-ghost{border:1px solid var(--line); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--muted); transform:translateY(-2px);}
+
+  /* TOPOLOGY DIAGRAM */
+  .topo-wrap{position:relative; display:flex; align-items:center; justify-content:center;}
+  .topo-node{
+    position:absolute; background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:10px 14px; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--text);
+    text-align:center; box-shadow:0 8px 20px rgba(0,0,0,0.4);
+  }
+  .topo-node .role{color:var(--muted); font-size:10px; display:block; margin-top:2px;}
+  .topo-node.core{border-color:var(--signal); color:var(--signal); font-weight:700; box-shadow:0 0 24px var(--signal-dim), 0 8px 20px rgba(0,0,0,0.4);}
+  .topo-node.n-cyan{border-color:var(--cyan); color:var(--cyan);}
+  .topo-node.n-purple{border-color:var(--purple); color:var(--purple);}
+  .topo-node.n-amber{border-color:var(--amber); color:var(--amber);}
+  .topo-node.n-coral{border-color:var(--coral); color:var(--coral);}
+  .topo-node.n-gold{border-color:var(--gold); color:var(--gold);}
+  .topo-svg{width:100%; height:100%;}
+  .dash{stroke-dasharray:6 6; animation:dashmove 1.6s linear infinite;}
+  @keyframes dashmove{to{stroke-dashoffset:-24;}}
+
+  /* SECTION HEADERS */
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:44px;}
+  .sec-num{font-family:'JetBrains Mono',monospace; color:var(--amber); font-size:13px;}
+  .sec-title{font-size:clamp(24px,3vw,34px); font-weight:800; letter-spacing:-0.01em;}
+  .sec-line{flex:1; height:1px; background:linear-gradient(90deg, var(--line), transparent);}
+  #about .sec-num{color:var(--cyan);}
+  #experience .sec-num{color:var(--purple);}
+  #skills .sec-num{color:var(--coral);}
+  #education .sec-num{color:var(--amber);}
+  #languages-extra .sec-num{color:var(--gold);}
+
+  /* ABOUT */
+  .about-grid{display:grid; grid-template-columns:1fr 1fr; gap:50px;}
+  @media(max-width:800px){.about-grid{grid-template-columns:1fr;}}
+  .about-grid p{color:var(--muted); margin-bottom:16px; font-size:15px;}
+  .about-grid strong{color:var(--text);}
+  .qual-list{list-style:none;}
+  .qual-list li{
+    padding:10px 0; border-bottom:1px solid var(--line); font-size:14px; color:var(--text);
+    display:flex; align-items:center; gap:10px;
+  }
+  .qual-list li::before{content:'▹'; color:var(--signal); font-size:12px;}
+
+  /* EXPERIENCE */
+  .exp-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:28px 30px; margin-bottom:22px;
+    position:relative; overflow:hidden;
+  }
+  .exp-card::before{content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--signal);}
+  .exp-card:nth-of-type(2)::before{background:var(--purple);}
+  .exp-card:nth-of-type(2) .exp-org{color:var(--purple);}
+  .exp-card:nth-of-type(2) .exp-time{color:var(--purple); background:var(--purple-dim);}
+  .exp-top{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:6px;}
+  .exp-role{font-size:18px; font-weight:700;}
+  .exp-time{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--amber); background:var(--amber-dim); padding:4px 10px; border-radius:20px; white-space:nowrap;}
+  .exp-org{color:var(--signal); font-size:13.5px; font-family:'JetBrains Mono',monospace; margin-bottom:14px;}
+  .exp-tags{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;}
+  .tag{font-size:11.5px; font-family:'JetBrains Mono',monospace; border:1px solid var(--line); color:var(--muted); padding:4px 10px; border-radius:6px;}
+  .exp-desc{color:var(--muted); font-size:14px;}
+
+  /* SKILLS */
+  .skill-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px;}
+  .skill-card{background:var(--panel-2); border:1px solid var(--line); border-top:3px solid var(--line); border-radius:12px; padding:24px; transition:transform .2s, border-color .2s;}
+  .skill-card:hover{transform:translateY(-4px);}
+  .skill-card h4{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--amber); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:16px;}
+  .pill-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .pill{background:var(--bg); border:1px solid var(--line); font-size:12.5px; padding:6px 12px; border-radius:20px; color:var(--text); transition:border-color .2s, color .2s;}
+  .skill-card.c-cyan{border-top-color:var(--cyan);}
+  .skill-card.c-cyan h4{color:var(--cyan);}
+  .skill-card.c-cyan .pill:hover{border-color:var(--cyan); color:var(--cyan);}
+  .skill-card.c-purple{border-top-color:var(--purple);}
+  .skill-card.c-purple h4{color:var(--purple);}
+  .skill-card.c-purple .pill:hover{border-color:var(--purple); color:var(--purple);}
+  .skill-card.c-coral{border-top-color:var(--coral);}
+  .skill-card.c-coral h4{color:var(--coral);}
+  .skill-card.c-coral .pill:hover{border-color:var(--coral); color:var(--coral);}
+  .skill-card.c-gold{border-top-color:var(--gold);}
+  .skill-card.c-gold h4{color:var(--gold);}
+  .skill-card.c-gold .pill:hover{border-color:var(--gold); color:var(--gold);}
+
+  /* EDUCATION */
+  .edu-item{display:grid; grid-template-columns:110px 1fr auto; gap:20px; align-items:center; padding:20px 0; border-bottom:1px solid var(--line);}
+  .edu-item:last-child{border-bottom:none;}
+  .edu-year{font-family:'JetBrains Mono',monospace; color:var(--signal); font-size:14px;}
+  .edu-item:nth-child(2) .edu-year{color:var(--cyan);}
+  .edu-item:nth-child(3) .edu-year{color:var(--purple);}
+  .edu-degree{font-weight:700; font-size:15.5px;}
+  .edu-inst{color:var(--muted); font-size:13.5px; margin-top:2px;}
+  .edu-score{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--amber); text-align:right;}
+  @media(max-width:640px){.edu-item{grid-template-columns:1fr; gap:4px;} .edu-score{text-align:left;}}
+
+  /* CERTS */
+  .cert-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px;}
+  .cert-card{border:1px solid var(--line); border-radius:12px; padding:20px; background:var(--panel); border-left:3px solid var(--line); transition:border-color .2s;}
+  .cert-card:nth-child(1){border-left-color:var(--cyan);}
+  .cert-card:nth-child(2){border-left-color:var(--purple);}
+  .cert-card:nth-child(3){border-left-color:var(--coral);}
+  .cert-card .cert-title{font-weight:700; font-size:14.5px; margin-bottom:4px;}
+  .cert-card .cert-meta{font-size:12.5px; color:var(--muted); font-family:'JetBrains Mono',monospace;}
+
+  /* MISC LISTS */
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:40px;}
+  @media(max-width:800px){.two-col{grid-template-columns:1fr;}}
+  .lang-row{display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--line); font-size:14px;}
+  .lang-row:last-child{border-bottom:none;}
+  .lang-bars{display:flex; gap:4px;}
+  .bar{width:16px; height:6px; border-radius:2px; background:var(--line);}
+  .bar.on{background:var(--signal);}
+  .lang-row:nth-child(2) .bar.on{background:var(--cyan);}
+
+  /* FOOTER / CONTACT */
+  footer{padding:80px 6vw 50px; text-align:center; border-top:1px solid var(--line); margin-top:60px;}
+  .contact-title{font-size:clamp(28px,4vw,44px); font-weight:800; margin-bottom:18px;}
+  .contact-links{display:flex; justify-content:center; gap:30px; flex-wrap:wrap; margin:30px 0; font-family:'JetBrains Mono',monospace; font-size:14px;}
+  .contact-links a{color:var(--text); text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:2px; transition:color .2s, border-color .2s;}
+  .contact-links a:nth-child(1):hover{color:var(--signal); border-color:var(--signal);}
+  .contact-links a:nth-child(2):hover{color:var(--cyan); border-color:var(--cyan);}
+  .contact-links a:nth-child(3):hover{color:var(--purple); border-color:var(--purple);}
+  footer{background:radial-gradient(ellipse 60% 80% at 50% 100%, var(--signal-dim), transparent 70%);}
+  .foot-note{color:var(--muted); font-size:12.5px; margin-top:40px;}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="glow-blob glow-1"></div>
+<div class="glow-blob glow-2"></div>
+<div class="glow-blob glow-3"></div>
+
+<nav>
+  <div class="nav-id"><span class="pulse-dot"></span>HOSNA_MOBAROK // STATUS: OPEN TO WORK</div>
+  <div class="nav-links">
+    <a href="#about">Profile</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Network &amp; Systems Engineer</div>
+    <h1>Building reliable networks, <span>one node at a time.</span></h1>
+    <p class="hero-desc">Md. Hosna Mobarok — a networking specialist with hands-on experience across LAN/WAN infrastructure, Mikrotik, and enterprise IT support, now expanding into software engineering with Java, C#, and SQL.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">3.6</div><div class="stat-label">Years Experience</div></div>
+      <div class="stat"><div class="stat-num">2</div><div class="stat-label">Organizations</div></div>
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Certifications</div></div>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#contact">Get in Touch</a>
+      <a class="btn btn-ghost" href="#experience">View Experience</a>
+    </div>
+  </div>
+
+  <div class="topo-wrap" style="height:420px;">
+    <svg class="topo-svg" viewBox="0 0 400 420">
+      <line class="dash" x1="200" y1="210" x2="90" y2="80" stroke="#3FC9F2" stroke-width="1.5" opacity="0.7"/>
+      <line class="dash" x1="200" y1="210" x2="310" y2="80" stroke="#B98CF0" stroke-width="1.5" opacity="0.7"/>
+      <line class="dash" x1="200" y1="210" x2="70" y2="340" stroke="#FFB454" stroke-width="1.5" opacity="0.7"/>
+      <line class="dash" x1="200" y1="210" x2="200" y2="340" stroke="#FF7A85" stroke-width="1.5" opacity="0.7"/>
+      <line class="dash" x1="200" y1="210" x2="330" y2="340" stroke="#FFD166" stroke-width="1.5" opacity="0.7"/>
+    </svg>
+    <div class="topo-node core" style="top:185px; left:150px;">HOSNA<span class="role">core node</span></div>
+    <div class="topo-node n-cyan" style="top:50px; left:15px;">BRAC<span class="role">Officer · 2024–now</span></div>
+    <div class="topo-node n-purple" style="top:50px; left:255px;">Link3 Technology<span class="role">Executive · 2022–24</span></div>
+    <div class="topo-node n-amber" style="top:315px; left:5px;">DIU<span class="role">BSc CSE · 2021</span></div>
+    <div class="topo-node n-coral" style="top:315px; left:150px;">Mikrotik / CCNA<span class="role">Certified</span></div>
+    <div class="topo-node n-gold" style="top:315px; left:280px;">Java / C# / SQL<span class="role">Skills</span></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">Profile</span><div class="sec-line"></div></div>
+  <div class="about-grid">
+    <div>
+      <p><strong>Career objective —</strong> to pursue a role in a competitive environment that pushes technical boundaries and adds real value to a technology-driven organization.</p>
+      <p>Strong in design and integration with intuitive problem-solving skills. Proficient in networking, Java, C#, and SQL, with a track record of implementing and launching infrastructure projects. Comfortable translating business requirements into technical solutions, and now aiming to grow into an entry-level software engineering role.</p>
+    </div>
+    <div>
+      <ul class="qual-list">
+        <li>Networking &amp; Mikrotik configuration</li>
+        <li>Structured &amp; Object-Oriented Programming</li>
+        <li>Database design &amp; Entity Relationship Diagrams</li>
+        <li>Problem-solving, flowcharting &amp; SQL</li>
+        <li>Infrastructure support &amp; asset management</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">Experience</span><div class="sec-line"></div></div>
+
+  <div class="exp-card">
+    <div class="exp-top">
+      <div class="exp-role">Officer — Microfinance Technology, Microfinance Programme</div>
+      <div class="exp-time">DEC 2024 — PRESENT</div>
+    </div>
+    <div class="exp-org">BRAC · Dhaka, Bangladesh</div>
+    <div class="exp-desc">Responsible for computer and network administration, asset management, and infrastructure support across BRAC's microfinance technology operations.</div>
+    <div class="exp-tags">
+      <span class="tag">Network Support</span>
+      <span class="tag">Hardware Support</span>
+      <span class="tag">F1 Security Solution</span>
+      <span class="tag">Asset Management</span>
+      <span class="tag">Infrastructure</span>
+    </div>
+  </div>
+
+  <div class="exp-card">
+    <div class="exp-top">
+      <div class="exp-role">Executive</div>
+      <div class="exp-time">NOV 2022 — DEC 2024</div>
+    </div>
+    <div class="exp-org">Link3 Technology Ltd · Gulshan-1, Dhaka</div>
+    <div class="exp-desc">Managed LAN/WAN operations and Mikrotik-based network infrastructure, handling documentation, troubleshooting, and service delivery across the network.</div>
+    <div class="exp-tags">
+      <span class="tag">LAN / WAN</span>
+      <span class="tag">Mikrotik</span>
+      <span class="tag">OLT &amp; Splitter Management</span>
+      <span class="tag">WhatsUp Gold</span>
+      <span class="tag">Xshell</span>
+      <span class="tag">Service Delivery</span>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">Skills</span><div class="sec-line"></div></div>
+  <div class="skill-grid">
+    <div class="skill-card c-cyan">
+      <h4>Networking</h4>
+      <div class="pill-row">
+        <span class="pill">Mikrotik</span><span class="pill">CCNA</span><span class="pill">LAN/WAN</span>
+        <span class="pill">OLT &amp; ONU</span><span class="pill">Switches / Routers</span><span class="pill">Network Config</span>
+      </div>
+    </div>
+    <div class="skill-card c-purple">
+      <h4>Programming &amp; Data</h4>
+      <div class="pill-row">
+        <span class="pill">Java</span><span class="pill">C#</span><span class="pill">SQL</span>
+        <span class="pill">OOP</span><span class="pill">ER Diagrams</span><span class="pill">Flowcharts</span>
+      </div>
+    </div>
+    <div class="skill-card c-coral">
+      <h4>Tools</h4>
+      <div class="pill-row">
+        <span class="pill">Winbox</span><span class="pill">Xshell</span><span class="pill">WhatsUp Gold</span>
+        <span class="pill">NMS</span><span class="pill">Microsoft Office</span>
+      </div>
+    </div>
+    <div class="skill-card c-gold">
+      <h4>Professional</h4>
+      <div class="pill-row">
+        <span class="pill">Leadership</span><span class="pill">Negotiation</span><span class="pill">Public Speaking</span>
+        <span class="pill">Problem Solving</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">Education</span><div class="sec-line"></div></div>
+
+  <div class="edu-item">
+    <div class="edu-year">2021</div>
+    <div><div class="edu-degree">BSc in Computer Science &amp; Engineering</div><div class="edu-inst">Daffodil International University (DIU) — 4-year programme</div></div>
+    <div class="edu-score">CGPA 3.17 / 4</div>
+  </div>
+  <div class="edu-item">
+    <div class="edu-year">2016</div>
+    <div><div class="edu-degree">HSC — Science</div><div class="edu-inst">Government Shah Sultan College, Bogura</div></div>
+    <div class="edu-score">GPA 4.42 / 5</div>
+  </div>
+  <div class="edu-item">
+    <div class="edu-year">2014</div>
+    <div><div class="edu-degree">SSC — Science</div><div class="edu-inst">Bogura Zilla School</div></div>
+    <div class="edu-score">GPA 5 / 5</div>
+  </div>
+
+  <div style="margin-top:50px;" class="sec-head"><span class="sec-num">04.1</span><span class="sec-title" style="font-size:20px;">Certifications &amp; Training</span><div class="sec-line"></div></div>
+  <div class="cert-grid">
+    <div class="cert-card"><div class="cert-title">MTCNA (Mikrotik Certified Network Associate)</div><div class="cert-meta">Mikrotik · Dhaka · Sep 2024</div></div>
+    <div class="cert-card"><div class="cert-title">Cisco Certified Network Associate track</div><div class="cert-meta">Cisco Networking Academy, DIU · 2021</div></div>
+    <div class="cert-card"><div class="cert-title">Software Testing &amp; QA using Selenium</div><div class="cert-meta">BITM · Online · 2020</div></div>
+  </div>
+</section>
+
+<section id="languages-extra">
+  <div class="sec-head"><span class="sec-num">05</span><span class="sec-title">Languages &amp; Activities</span><div class="sec-line"></div></div>
+  <div class="two-col">
+    <div>
+      <h4 class="mono" style="color:var(--amber); font-size:12px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px;">Language Proficiency</h4>
+      <div class="lang-row">English <div class="lang-bars"><div class="bar on"></div><div class="bar on"></div><div class="bar on"></div></div></div>
+      <div class="lang-row">Bengali <div class="lang-bars"><div class="bar on"></div><div class="bar on"></div><div class="bar on"></div></div></div>
+    </div>
+    <div>
+      <h4 class="mono" style="color:var(--amber); font-size:12px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px;">Extra-Curricular</h4>
+      <ul class="qual-list">
+        <li>Runner-up, CSE Fest 2018 — Daffodil International University</li>
+        <li>Member, Social Business Student Forum, DIU</li>
+        <li>Member, Robotics Club, DIU</li>
+        <li>Division Champion (Run) — National Summer Sports Competition, 2013</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="eyebrow" style="justify-content:center;">Let's Connect</div>
+  <div class="contact-title">Open to Entry-Level<br>Software &amp; Network Engineering Roles</div>
+  <div class="contact-links">
+    <a href="mailto:hosnamobarok89@gmail.com">hosnamobarok89@gmail.com</a>
+    <a href="tel:+8801744638657">+880 1744-638657</a>
+    <a href="#" onclick="return false;">Sonargaon, Narayanganj, Bangladesh</a>
+  </div>
+  <div class="foot-note">References available on request · Md. Hosna Mobarok © 2026</div>
+</footer>
+
+</body>
+</html>
